@@ -112,7 +112,7 @@ ifeq ($(hosttype),unknown)
 PROGRAMS = unknownhost
 else
 # change this if you create a new test program!
-PROGRAMS = add halt shell matmult sort segments createfile
+PROGRAMS = add halt shell matmult sort segments open read_write
 endif
 
 all: $(PROGRAMS)
@@ -132,6 +132,27 @@ add.o: add.c
 add: add.o start.o
 	$(LD) $(LDFLAGS) start.o add.o -o add.coff
 	$(COFF2NOFF) add.coff add
+
+createfile.o: createfile.c
+	$(CC) $(CFLAGS) -c createfile.c
+
+createfile: createfile.o start.o
+	$(LD) $(LDFLAGS) start.o createfile.o -o createfile.coff
+	$(COFF2NOFF) createfile.coff createfile
+
+open.o: open.c
+	$(CC) $(CFLAGS) -c open.c
+
+open: open.o start.o
+	$(LD) $(LDFLAGS) start.o open.o -o open.coff
+	$(COFF2NOFF) open.coff open
+
+read_write.o: read_write.c
+	$(CC) $(CFLAGS) -c read_write.c
+
+read_write: read_write.o start.o
+	$(LD) $(LDFLAGS) start.o read_write.o -o read_write.coff
+	$(COFF2NOFF) read_write.coff read_write
 
 shell.o: shell.c
 	$(CC) $(CFLAGS) -c shell.c
@@ -156,13 +177,6 @@ matmult.o: matmult.c
 matmult: matmult.o start.o
 	$(LD) $(LDFLAGS) start.o matmult.o -o matmult.coff
 	$(COFF2NOFF) matmult.coff matmult
-
-createfile.o: createfile.c
-	$(CC) $(CFLAGS) -c createfile.c
-
-createfile: createfile.o start.o
-	$(LD) $(LDFLAGS) start.o createfile.o -o createfile.coff
-	$(COFF2NOFF) createfile.coff createfile
 
 clean:
 	$(RM) -f *.o *.ii

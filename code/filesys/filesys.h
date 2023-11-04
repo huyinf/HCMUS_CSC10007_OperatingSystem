@@ -36,6 +36,7 @@
 #include "copyright.h"
 #include "sysdep.h"
 #include "openfile.h"
+#include "debug.h"
 
 #ifdef FILESYS_STUB // Temporarily implement file system calls as
 // calls to UNIX, until the real file system
@@ -109,31 +110,41 @@ public:
 
     bool Create(char *name)
     {
+        int id = isFull();
+        DEBUG(dbgSys,"\n new id = "<<id);
         int fileDescriptor = OpenForWrite(name);
-
+        DEBUG(dbgSys,"\n file new create = "<<name);
+        filename[id] = name;
+        DEBUG(dbgSys,"\n create success = "<<filename[id]);
         if (fileDescriptor == -1)
             return FALSE;
+        DEBUG(dbgSys,"\ncreate 1");
+
         Close(fileDescriptor);
         return TRUE;
     }
 
     OpenFile *Open(char *name)
     {
+
         int fileDescriptor = OpenForReadWrite(name, FALSE);
 
         if (fileDescriptor == -1)
             return NULL;
+
         return new OpenFile(fileDescriptor);
     }
 
     // huy
     OpenFile *Open(char *name, int type)
     {
+
         int fileDescriptor = OpenForReadWrite(name, FALSE);
         if (fileDescriptor == -1)
         {
             return NULL;
         }
+
         return new OpenFile(fileDescriptor, type);
     }
     //

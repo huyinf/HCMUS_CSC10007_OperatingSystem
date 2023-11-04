@@ -128,7 +128,7 @@ int Remove(char *name);
  * 0 - read and write
  * 1 - read only
  */
-OpenFileId Open(char *name);
+OpenFileId Open(char *name,int type);
 
 /* Write "size" bytes from "buffer" to the open file. 
  * Return the number of bytes actually read on success.
